@@ -1,0 +1,26 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: # storage-class-name # Specify the name of the StorageClass
+provisioner: kubernetes.io/aws-ebs or k8s.io/minikube-hostpath
+parameters:
+  type: gp2
+reclaimPolicy: Retain # Can be set to 'Delete' or 'Retain'
+volumeBindingMode: Immediate # Can be set to 'Immediate' or 'WaitForFirstConsumer'
+
+
+# apiVersion: Specifies the API version, which is storage.k8s.io/v1 for StorageClasses.
+# kind: Indicates the type of Kubernetes object, which is StorageClass.
+# metadata: Contains data to uniquely identify the object, primarily the name.
+
+# provisioner: Defines the volume plugin used to provision the storage. This varies by cloud provider or on-premise solution.
+
+# parameters: Key-value pairs that describe the storage specifics, 
+#     such as disk type (gp2, ssd), file system (ext4, xfs), or other characteristics.
+
+# reclaimPolicy: Determines what happens to the underlying persistent volume(PV) when the PersistentVolumeClaim(PVC) is deleted. 
+#     Delete automatically cleans up the physical storage, while Retain saves the data.
+
+# volumeBindingMode: Controls when volume binding and dynamic provisioning should occur. 
+#     Immediate binds the PV as soon as the PVC is created; 
+#     WaitForFirstConsumer delays binding until a Pod uses the PVC, which can improve scheduling in multi-zone clusters.

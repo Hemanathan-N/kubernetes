@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: arn:aws:iam::123456789012:role/KubernetesAdminRole
+      username: admin
+      groups:
+        - system:bootstrappers
+        - system:nodes
+  mapUsers: |
+    - groups:
+      - dev-readonly
+      userarn: arn:aws:iam::111122223333:user/user1-ro
+      username: user1-ro
+    - groups:
+      - dev-fullaccess
+      userarn: arn:aws:iam::222233334444:user/user2-fa
+      username: user2-fa
+    - groups:
+      - admin-full-access
+      userarn: arn:aws:iam::555566667777:user/user3-admin
+      username: user3-admin

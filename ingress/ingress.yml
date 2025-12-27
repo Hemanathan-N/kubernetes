@@ -1,0 +1,28 @@
+apiversion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: # ingress-name
+  namespace: # namespace # optional 
+  annotations:
+    kubernetes.io/ingress.class: # ingress-class  # e.g., "nginx"
+spec:
+  rules:
+    - host: # host-name # domain-name  # e.g., "example.com"
+      http:
+        paths:
+        - backend:
+            serviceName: # service-name  # e.g., "my-service"
+            servicePort: # service-port  # e.g., 80
+
+    - host: # another-host-name # domain-name  # e.g., "another-example.com"
+      http:
+        paths:
+        - backend:
+            serviceName: # another-service-name  # e.g., "another-service"
+            servicePort: # another-service-port  # e.g., 8080
+
+  # Additional rules can be added here
+  # tls:
+  # - hosts:
+  #   - # tls-host-name  # e.g., "secure-example.com"
+  #   secretName: # tls-secret-name  # e.g., "tls-secret"

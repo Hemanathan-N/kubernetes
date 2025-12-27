@@ -1,0 +1,49 @@
+# How to assign a shared volume across all pods running on different worker nodes in kubernetes cluster
+# Here we are using nfs volume to share data across pods running on different worker nodes
+# Prerequisite: An nfs server should be installed and configured on one of the nodes
+
+# we want to mount a nfs volume to each worker node
+# using this command on each worker node : sudo mount 192.168.1.7:/vol /mnt/data
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: # deployment_name
+  labels:
+    app: calculator-app
+spec:
+  selector:
+    matchLabels:
+      app: calculator-app
+  strategy:
+    type: RollingUpdate
+  replicas: 2
+  
+  template:
+    metadata:
+      labels:
+        app: calculator-app
+
+    spec:
+      volumes:
+      - name: # volume_name
+        hostPath:
+         path: /mnt/data # path on the host
+         type: Directory # type of hostPath
+
+      containers:
+      - name: # container_name1
+        image: nginx # which image
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - name: # volume_name
+          mountPath: /var/nginx-data or "/var/nginx-data" # path inside the container
+
+      - name: # container_name2
+        image: tomcat # which image
+        ports:
+        - containerPort: 5001
+        volumeMounts:
+        - name: # volume_name
+          mountPath: /var/tomcat-data or "/var/tomcat-datta" # path inside the container

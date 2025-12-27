@@ -1,0 +1,31 @@
+# apiVersion - Which version of the Kubernetes API you're using to create this object
+apiVersion: apps/v1
+# kind - What kind of object you want to create && first letter should be start in Caps letter
+kind: ReplicaSet
+# metadata is just an extra information
+metadata:
+  name: # replicaset-name
+  labels:
+    project: #what porject is this
+    env: #testing or devolping like that
+# spec - What state you desire for the object
+spec:
+  replicas: 3 # number of pods you want to run
+  selector:
+    matchLabels:
+      project: calculator 
+  template:
+    metadata:
+      lables:
+        project: calculator
+    spec:
+      # container 1
+      containers: 
+      - name: # container-name-1
+        image: # which image
+        ports:
+        - containerPort: # which port would run container 1?
+    
+# to run replicaset manifest file >>>>   kubectl apply -f replicaset.yaml 
+# matchlables and template labels should be same all time... 
+# eppomaey matching lables um and pod lables um all time same than irukanum

@@ -1,0 +1,60 @@
+# in google serach kubectl cheat sheet  # to get more commands
+
+# kubectl get all     # this shows all pods, nodes, service , all resources
+
+# kubectl get resource-type resource-type-name
+# kubectl decribe resource-type resource-type-name
+# kubectl delete resource-type resource-type-name 
+
+# kubectl get pod      # to list of pods in default namespace
+# kubectl get pod -o wide   # gives more details about pod like IP, NODE, etc.. in default namespace
+# kubectl get pods -A         # to see all pods in all namespaces
+
+# kubectl get pod -n namespace-name       # list of pods in namespace-name
+# kubectl get pod --namespace=namespace-name       # list of pods in namespace-name
+
+# kubectl get pod -n namespace-name -o wide       #  gives more details about pod like IP, NODE, etc.. in namespace-name
+
+# kubectl get pod pod-name --watch        # we can watch pod in live 
+# kubectl exec it pod-name or container-name  --/bin/bash        # to login into pod or container
+
+# kubectl decribe pod pod-name    # gives full details of pod and advantage is to check the error where error was occured
+
+# kubectl delete pod pod-name     # delete the pod-name in default namespace
+
+# kubectl apply -f filename.yaml      # to apply the resources
+
+# kubectl rollout history deployment deployment-name      # to historys of the deployment
+# kubectl rollout undo deployment deployment-name         # to rollback to the pervious deployment
+
+# kubectl create configmap configmap-name --from-file=file-location
+
+
+# ### to check the performance and monitoring
+
+# kubectl apply -f link for server.k82  # serach in google and gives github link.
+
+# kubectl top node node-name   # for system usage
+
+# kubectl decribe node node-name    # for full details
+
+# kubectl top pod pod-name -n devlop (namespace-name)
+
+
+### CPU && resource memory allocation
+### how give resource memory allocation 
+## to give which container
+spec:
+      containers:
+      - name: # container_name
+        image: # which image
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            # to see allocatable cpu and memory in node use command kubectl describe node node-name
+            memory: "64Mi" # request memory
+            cpu: "250m"   # request cpu # m means millicores # 1 core = 1000m 
+          limits:
+            memory: "128Mi"
+            cpu: "500m"

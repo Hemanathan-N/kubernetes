@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: # service-name
+  labels:
+    app: calculator-app # service-label # should match pod label selector # match with deployment labels
+spec:
+  type: ExternalName
+  externalName: # URL
+  selector:
+    app: calculator-app
+  ports:
+  - port: 80                  # service-port

@@ -1,0 +1,53 @@
+# RABC stands for Role-Based Access Control. 
+# It is a method of regulating access to computer or network resources based on the roles of individual users within an organization. 
+# In an RBAC system, permissions are assigned to specific roles, and users are granted access based on their assigned roles. 
+# This approach helps to ensure that users only have access to the resources necessary for their job functions, enhancing security and reducing the risk of unauthorized access.
+# In simple terms, it helps us to control who can do what inside a kubernetes cluster.
+# RABC helps you limit access based on roles like admin, read-only user, or developer, etc.
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role 
+metadata:
+  namespace: # namespace-name # e.g., dev
+  name: # role-name # e.g., dev-readonly
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods", "services"] # resources to which the role applies
+  verbs: ["get", "list", "watch"] # actions allowed on the resources
+
+# rules:
+# - apiGroups: Specifies the API group of the resources. An empty string ("") indicates the core API group.
+# - resources: Lists the resources that the role applies to, such as pods, services, deployments, etc.
+# - verbs: Defines the actions that can be performed on the specified resources, such as get, list, watch, create, update, delete, edit, etc.
+
+# ---
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: RoleBinding
+# metadata:
+#   name: # rolebinding-name # e.g., dev-readonly-binding
+#   namespace: # namespace-name # e.g., dev
+# subjects:
+#   # you can specify more than one subject if needed
+# - kind: User # Can be User, Group, or ServiceAccount
+#   name: # user-name # e.g., bob # name is case-sensitive
+#   apiGroup: rbac.authorization.k8s.io
+# roleRef:
+#   kind: Role
+#   name: # role-name # e.g., dev-readonly
+#   apiGroup: rbac.authorization.k8s.io 
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: # rolebinding-name # e.g., dev-readonly-binding
+  namespace: # namespace-name # e.g., dev
+subjects:
+  # you can specify more than one subject if needed
+- kind: Group # Can be User, Group, or ServiceAccount
+  name: # group-name # e.g., read-only # name is case-sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: # role-name # e.g., dev-readonly
+  apiGroup: rbac.authorization.k8s.io 

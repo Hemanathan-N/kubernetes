@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: # pv-name
+spec:
+  capacity:
+    storage: 1Gi # Defines the size of the storage volume
+  accessModes:
+    - ReadWriteOnce # Specifies how the volume can be mounted (single node read/write)
+  persistentVolumeReclaimPolicy: Retain # Determines what happens to the volume after the PVC is deleted
+  hostPath:
+    path: "/mnt/data" # The path on the host node where the storage is located
+
+
+# apiVersion: The Kubernetes API version to use (typically v1 for PVs).
+# kind: The type of Kubernetes resource, which is PersistentVolume.
+# metadata: Data that helps uniquely identify the object, such as the name.
+# spec: The desired state and characteristics of the PV.
+
+# capacity.storage: The amount of storage provided (e.g., 1Gi, 10Gi).
+
+# accessModes: Defines how the volume can be mounted:
+#     ReadWriteOnce (RWO): The volume can be mounted as read-write by a single node.
+#     ReadOnlyMany (ROX): The volume can be mounted read-only by many nodes.
+#     ReadWriteMany (RWX): The volume can be mounted read-write by many nodes (storage provider dependent).
+
+# persistentVolumeReclaimPolicy: The policy for handling the volume after its associated Persistent Volume Claim (PVC) is deleted:
+#     Retain: Manual cleanup is required; the data remains on the volume.
+#     Delete: The underlying storage volume is automatically deleted.
+#     Recycle: Deprecated; previously attempted to clean the volume for reuse.
+
+# hostPath.path: (Used in this example) Specifies a path on the host node. 
+#     In production, you would use a cloud provider-specific option (like awsElasticBlockStore or azureDisk) 
+#     or a network-based solution like NFS, which offers better data resilience. 

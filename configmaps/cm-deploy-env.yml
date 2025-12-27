@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: # deployment_name
+  labels:
+    app: calculator-app
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: calculator-app
+  template:
+    metadata:
+      labels:
+        app: calculator-app
+    spec:
+      containers:
+      - name: # container_name
+        image: # which image
+        ports:
+        - containerPort: 5000
+        envFrom:
+        - configMapRef:
+            name: # configmap_name
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: # service-name
+  labels:
+    app: calculator-app
+spec:
+  type: NodePort
+  selector:
+    app: calculator-app
+  ports:
+  - protocol: TCP
+    port: 80                  # service-port
+    targetPort: 5000          # pod-port
+    nodePort: 30080           # node-port i.e..30000 to 32767 

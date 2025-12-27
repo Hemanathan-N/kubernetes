@@ -1,0 +1,48 @@
+# How to assign a dedicated volumes to each container in a pod
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: # deployment_name
+  labels:
+    app: calculator-app
+spec:
+  selector:
+    matchLabels:
+      app: calculator-app
+  strategy:
+    type: RollingUpdate
+  replicas: 1
+  
+  template:
+    metadata:
+      labels:
+        app: calculator-app
+
+    spec:
+      volumes:
+      - name: # volume_name1
+        hostPath:
+         path: /mnt/data1 # path on the host
+         type: Directory # type of hostPath
+      - name: # volume_name2
+        hostPath:
+         path: /mnt/data2 # path on the host
+         type: Directory # type of hostPath
+
+      containers:
+      - name: # container_name1
+        image: nginx # which image
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - name: # volume_name1
+          mountPath: /var/nginx-data or "/var/nginx-data" # path inside the container
+
+      - name: # container_name2
+        image: tomcat # which image
+        ports:
+        - containerPort: 5001
+        volumeMounts:
+        - name: # volume_name2
+          mountPath: /var/tomcat-data or "/var/tomcat-datta" # path inside the container

@@ -1,0 +1,6 @@
+apiversion: v1
+kind: ConfigMap
+metadata:
+  name: # configmap-name
+data:
+  PAGE_TITLE: Title from configmap

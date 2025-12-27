@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: # pvc-name
+spec:
+  # The StorageClass name that determines the type of storage provisioned
+  storageClassName: # storage-class-name  # Optional: specify if you want a particular StorageClass
+
+  accessModes:
+    # Defines how the volume can be accessed. 
+    # Common modes: ReadWriteOnce, ReadOnlyMany, ReadWriteMany
+    - ReadWriteOnce 
+  
+  resources:
+    requests:
+      # Specifies the amount of storage requested
+      storage: 1Gi
+  
+
+# apiVersion: v1: Specifies the Kubernetes API version being used. 
+# kind: PersistentVolumeClaim: Defines the resource type as a PVC.
+# metadata: name: my-pvc: Sets the name of the PVC within the cluster.
+# spec:: Contains the desired specifications for the claim.
+
+# accessModes:: Describes the access modes the user wants. 
+#     The volume will be matched to a PV that supports the requested modes.
+#     ReadWriteOnce (RWO): The volume can be mounted as read-write by a single node.
+#     ReadOnlyMany (ROX): The volume can be mounted read-only by many nodes.
+#     ReadWriteMany (RWX): The volume can be mounted as read-write by many nodes.
+
+# resources: requests: storage: 1Gi: Specifies the minimum storage capacity requested.
+
+# storageClassName: Refers to a StorageClass object that defines the properties and backend implementation of the storage. 

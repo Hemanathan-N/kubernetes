@@ -1,0 +1,21 @@
+# to create namespace in CLI & then cmd is 
+#     kubectl create namespace namespace-name
+# to see all pods in the namespace-name namespace & then cmd is
+#     kubectl get pods --namespace=namespace-name
+# to see all namespace's & then cmd is
+#     kubectl get namespace
+
+
+apiversion: v1
+kind: Pod
+metadata:
+  name: # pod-name
+  namespace: # namespace-name
+  lables:
+    project: calculator-app
+spec:
+  containers:
+  - name: # container-name
+    image: # which image
+    ports:
+    - containerPort: 5000

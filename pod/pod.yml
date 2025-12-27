@@ -1,0 +1,23 @@
+# apiVersion - Which version of the Kubernetes API you're using to create this object
+apiVersion: v1
+# kind - What kind of object you want to create && first letter should be start in Caps letter
+kind: Pod
+# metadata is just an extra information
+metadata:
+  name: # pod-name
+  labels:
+    project: #what porject is this
+    env: #testing or devolping like that
+# spec - What state you desire for the object
+spec:
+    # container 1
+  containers:
+  - name: # container-name-1
+    image: # which image
+    ports:
+    - containerPort: # which port would run container 1?
+    # container 2
+  - name: # container-name-2
+    image: # which image
+    ports:
+    - containerPort: # which port would run container 2?

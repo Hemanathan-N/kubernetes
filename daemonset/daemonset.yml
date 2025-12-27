@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: # daemonset-name
+spec:
+  selector:
+    matchLabels:
+      app: calculator-app
+  template:
+    labels:
+      app: calculator-app
+    spec:
+      containers:
+      - name: # container-name
+        image: # which image
