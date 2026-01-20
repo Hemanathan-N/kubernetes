@@ -26,5 +26,7 @@ spec:
       containers:
       - name: # container_name
         image: # which image
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000
+
