@@ -1,0 +1,29 @@
+apiversion: v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+            - matchExpressions:
+              - key: app  # redis pod label, matchLabels: app: redis
+                operator: In
+                values:
+                - redis
+            topologyKey: "kubernetes.io/hostname" # ensure co-location on the same node
+      containers:
+      - name: my-app-container
+        image: my-app-image:latest
+        ports:
+        - containerPort: 80
