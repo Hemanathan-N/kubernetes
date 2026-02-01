@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: my-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      tolerations:
+      - key: "key"
+        operator: "Equal"
+        value: "value"
+        effect: "NoSchedule"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution: # preferredDuringSchedulingIgnoredDuringExecution is also an option.
+          # preferredDuringSchedulingIgnoredDuringExecution uses weight to indicate preference level.
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: "disktype"
+                operator: "In"  # Specify the operator for the node affinity rule.
+                values:
+                - "ssd"
+                - "nvme"
+                # operator can be In, NotIn, Exists, DoesNotExist, Gt, Lt
+                # Here we use In operator to specify multiple acceptable values.
+                # we can also use NotIn to exclude certain values.
+                # For Exists and DoesNotExist, no values are needed. example:
+                # - key: "gpu"
+                #   operator: "Exists"
+                # - key: "ssd-type"
+                #   operator: "DoesNotExist"
+                # For Gt and Lt, a single numeric value is required. example:
+                # - key: "cpu-speed"
+                #   operator: "Gt"
+                #   values:
+                #   - "2400"
+      containers:
+      - name: my-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
