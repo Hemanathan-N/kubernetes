@@ -1,0 +1,31 @@
+# kubectl taint node <node-name> key=value:effect to add a taint to a node.
+        # effect has three possible values: NoSchedule, PreferNoSchedule, NoExecute
+        # NoSchedule: Pods will not be scheduled on nodes with matching taints.
+        # PreferNoSchedule: Kubernetes will try to avoid scheduling Pods on nodes with matching taints, but it's not guaranteed.
+        # NoExecute: Pods will be evicted from nodes with matching taints, and new Pods will not be scheduled on those nodes.
+
+# This deployment includes a toleration that allows its Pods to be scheduled on nodes with the specified
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: my-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      tolerations:
+      - key: "key"
+        operator: "Equal"
+        value: "value"
+        effect: "NoSchedule"
+      containers:
+      - name: my-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
