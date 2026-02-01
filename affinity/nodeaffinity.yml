@@ -1,3 +1,10 @@
+# kubectl label node <node-name> <key>=<value> 
+# Replace <node-name> with the name of your node, <key> with the label key, and <value> with the label value you want to assign.
+# kubectl label node is used to add or update labels on Kubernetes nodes.
+# example: kubectl label node worker-node-1 environment=production
+# kubectl get nodes --show-labels
+# This command will display all nodes along with their labels to verify the label has been applied.
+
 apiVersion: v1
 kind: Deployment
 metadata:
