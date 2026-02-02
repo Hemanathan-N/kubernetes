@@ -1,4 +1,42 @@
-apiversion: extensions/v1beta1
+apiversion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx    # Specify the Ingress class if needed (for example, nginx) 
+  tls:     # TLS configuration
+  - hosts:
+    - simplebyte.com
+    secretName: example-tls
+  defaultBackend:    # Default backend service. Requests that do not match any rules will be routed here.
+    service:
+      name: simplebyte-frontend-svc
+      port:
+        number: 80
+  rules:    # Rules for routing based on host and path. Requests to simplebyte.com/backend go to the backend service.
+  - host: simplebyte.com     #   while requests to /frontend go to the frontend service.
+    http:
+      paths:
+      - path: /backend
+        pathType: Prefix     # Use Prefix to match all paths under /backend. You can also use Exact for exact matches.
+        backend:
+          service:
+            name: simplebyte-backend-svc
+            port:
+              number: 8090
+      - path: /frontend
+        pathType: Prefix
+        backend:
+          service:
+            name: simplebyte-frontend-svc
+            port:
+              number: 80
+
+---
+apiversion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: # ingress-name
@@ -13,16 +51,16 @@ spec:
         - backend:
             serviceName: # service-name  # e.g., "my-service"
             servicePort: # service-port  # e.g., 80
-
     - host: # another-host-name # domain-name  # e.g., "another-example.com"
       http:
         paths:
         - backend:
             serviceName: # another-service-name  # e.g., "another-service"
             servicePort: # another-service-port  # e.g., 8080
-
+# ------------------------------------------------------------------------------------
   # Additional rules can be added here
   # tls:
   # - hosts:
   #   - # tls-host-name  # e.g., "secure-example.com"
+
   #   secretName: # tls-secret-name  # e.g., "tls-secret"
